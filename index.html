@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Прогноз погоди</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#getWeatherBtn').click(function () {
+                var city = $('#cityInput').val();
+                var apiKey = '745f83e7b79a3b6ba86bc94be5aa38bd';
+                var apiUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
+                var params = {
+                    q: city,
+                    appid: apiKey,
+                    units: 'metric'
+                };
+
+                $.get(apiUrl, params, function (data) {
+                    var temperature = data.main.temp;
+                    var description = data.weather[0].description;
+
+                    $('#weatherResult').text('Погода в ' + city + ': ' + temperature + '°C, ' + description);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $('#weatherResult').text('Помилка отримання погоди: ' + errorThrown);
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Прогноз погоди</h1>
+    <input type="text" id="cityInput" placeholder="Введіть місто">
+    <button id="getWeatherBtn">Отримати погоду</button>
+    <p id="weatherResult"></p>
+</body>
+
+</html>
